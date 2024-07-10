@@ -1,2 +1,2 @@
 # AberrationMatrix
-Supporting codes and data for a paper titled "Computational adaptive optics for enhanced imaging through thick tissues exploiting tilt-to-tilt correlation in optical memory effect"
+Supporting codes and data for a paper titled "Digital aberration correction for enhanced thick tissue imaging exploiting aberration matrix and tilt-tilt correlation in optical memory effect"

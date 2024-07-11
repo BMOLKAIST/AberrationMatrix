@@ -6,7 +6,7 @@ for k = 1:length(wavelength)
 
     fprintf("%d / %d \n",k,length(wavelength))
     constant.wavelength = wavelength(k);
-    Ein = coordinates.gaussian(10,-zm,uin,constant);
+    Ein = coordinates.gaussian(10,-zm,uin,constant); % 10: size of the window_in
     if ~isempty(wavefront)
         Ein = ifft2(fft2(Ein).*wavefront);
     end

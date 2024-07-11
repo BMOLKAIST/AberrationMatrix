@@ -98,7 +98,7 @@ field_y = field_our(:,:,2*size(field_our,3)/3+1:end);
 field_0 = field_our(:,:,1:size(field_our,3)/3);
 
 %% adaptive optics
-p = 3;5; %size of the window
+p = 3;5; %size of the window_out
 
 aberration = 1;
 

@@ -1,4 +1,4 @@
-function [pout, pin] = get_aberration_conventional(field,uin)
+function [pout, pin] = get_aberration_Conventional(field,uin)
 
 
 Eout = fft2(field);

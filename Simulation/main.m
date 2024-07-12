@@ -128,7 +128,7 @@ end
 
 % conventional
 field_c = field_conv .* abs(coordinates.gaussian(p,0,[0 0],constant));
-aberration_conventional = get_aberration_conventional(field_c,round(uin1/coordinates.dux));
+aberration_conventional = get_aberration_Conventional(field_c,round(uin1/coordinates.dux));
 
 % ideal
 point_source = zeros(coordinates.Nx,coordinates.Nx);

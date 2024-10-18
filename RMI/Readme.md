@@ -4,4 +4,4 @@ Supporting codes for a paper titled "Digital aberration correction for enhanced 
 This code is based on the experimental data shared in
 Paul Balondrade, Victor Barolle, Nicolas Guigui, Emeric Auriant, Nathan Rougier, Claude Boccara, Mathias Fink, & Alexandre Aubry. (2023). Multi-Spectral Reflection Matrix for Ultra-Fast 3D Label-Free Microscopy [Data set]. Zenodo. https://doi.org/10.5281/zenodo.8407618
 
-To run the code, you will need distortion_ur_refocused_t122.mat, which can be downloaded from (https://zenodo.org/records/8407618/files/distortion_ur_refocused_t122.mat?download=1)
+To run the code (main.m), you will need distortion_ur_refocused_t122.mat, which can be downloaded from (https://zenodo.org/records/8407618/files/distortion_ur_refocused_t122.mat?download=1)

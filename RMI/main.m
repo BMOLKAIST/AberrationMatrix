@@ -1,5 +1,11 @@
+% Remark
+% The tilt angle in the data is significantly larger than the typical value used in our approach. Reducing the tilt angle is necessary to achieve greater depth. 
+% Additionally, the provided code is not optimized due to time constraints, which may result in slower execution speeds depending on the available computing resources.  
+
 %% load data
+% please refer to README to download the experimental data.
 load("distortion_ur_refocused_t122.mat")
+
 
 %% without correction
 result_uncorrected = uncorrected_image(distortion_ur_refocused_t122);

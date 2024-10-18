@@ -1,5 +1,7 @@
 function [result, phi_in, phi_out] = function_aberration_matrix_multi(distortion_ur_refocused_t122,pos_x,pos_y)
-%%
+%% prepare the reflection matrix. 
+% the number 40 corresponds to the scanning interval of the tilt angle (wave vector).
+
 R = permute(distortion_ur_refocused_t122,[2 3 1]);
 R = reshape(R,1024,1024,15,15);
 for ii = 1:15
@@ -9,7 +11,8 @@ for ii = 1:15
 end
 
 
-%%
+%% Generate the window.
+
 wx = 1024*pos_x;
 wy = 1024*pos_y;
 
@@ -31,13 +34,11 @@ for ii = 1:15
         R_windowed(:,:,ii,jj) = circshift(fft2(R_windowed(:,:,ii,jj).*window_out),[-40*(jj-15), -40*(ii-15)]);
     end
 end
-%%
-% X = R_windowed.*exp(-1i*phi_out).*permute(reshape(exp(-1i*phi_in),15,15,1,1),[3 4 2 1]);
-%%
+
+%% Calculate the x-direction aberration matrix
+
 X = R_windowed;
-%%
 A = circshift(X(:,:,1:14,:),[0 -40]).*conj(X(:,:,2:15,:));
-%A = circshift(X(:,:,1:14,:),[0 -20]).*conj(circshift(X(:,:,2:15,:),[0, 20]));
 
 M = reshape(A,1024*1024,14*15);
 M = M'*M;
@@ -53,9 +54,9 @@ grad_out_x = exp(1i*angle(sum(A.*conj(grad_in_x),[3,4])));
 
 grad_in_x = padarray(squeeze((grad_in_x)).',[0,1],1,'pre');
 
-%%
+%% Calculate the y-direction aberration matrix
+
 A = circshift(X(:,:,:,1:14),[-40 0]).*conj(X(:,:,:,2:15));
-%A = circshift(X(:,:,:,1:14),[-20 0]).*circshift(conj(X(:,:,:,2:15)),[20 0]);
 
 M = reshape(A,1024*1024,14*15);
 M = M'*M;
@@ -72,21 +73,11 @@ grad_out_y = exp(1i*angle(sum(A.*conj(grad_in_y),[3,4])));
 
 grad_in_y = padarray(squeeze((grad_in_y)).',[1,0],1,'pre');
 
-%%
-mask = sqrt(((1:1024)-260-5).^2  +  ((1:1024).'-260-5).^2) < 260;
-%mask = sqrt(((1:1024)-260-5-20).^2  +  ((1:1024).'-260-5-20).^2) < 260;
 
-% subplot(1,2,1)
-% imagesc(mask.*angle(grad_out_x ));axis image
-% subplot(1,2,2)
-% imagesc(mask.*angle(grad_out_y ));axis image
-%%
+mask = sqrt(((1:1024)-260-5).^2  +  ((1:1024).'-260-5).^2) < 260;
 mask_in = angle(grad_in_x) ~=0 & angle(grad_in_y) ~=0 ;
-% subplot(1,2,1)
-% imagesc(angle(grad_in_x));axis image
-% subplot(1,2,2)
-% imagesc(angle(grad_in_y));axis image
-%%
+
+%% Phase unwrapping is neccesary due to the large tilt angle
 [grad_out_x_u,~,~,~]  = unwrap2_Lp(angle(grad_out_x(1:526,1:526).*mask(1:526,1:526)), 0);%y
 [grad_out_y_u,~,~,~]  = unwrap2_Lp(angle(grad_out_y(1:526,1:526).*mask(1:526,1:526)), 0);%x
 
@@ -100,7 +91,7 @@ grad_out_y(1:526,1:526) = grad_out_y_u;
 % subplot(1,2,2)
 % imagesc(squeeze((grad_out_y)));axis image;
 
-%%
+%% Phase unwrapping is neccesary due to the large tilt angle
 [grad_in_x,~,~,~]  = unwrap2_Lp(angle(grad_in_x.*mask_in), 0);%y
 [grad_in_y,~,~,~]  = unwrap2_Lp(angle(grad_in_y.*mask_in), 0);%x
 
@@ -109,7 +100,7 @@ grad_out_y(1:526,1:526) = grad_out_y_u;
 % subplot(1,2,2)
 % imagesc(squeeze((grad_in_y)));axis image;
 
-%%
+%% Inverse gradient
 
 g_out=[];
 g_out(:,:,1)=squeeze(grad_out_y)/40;
@@ -133,7 +124,8 @@ imagesc(wrapToPi(phi_out))
 phi_in =  antigradient2((g_in), mask_in*1,0,10);
 figure(3)
 imagesc(wrapToPi(phi_in))
-%%
+
+%% Generates the corrected image
 
 R_corrected = zeros(1024,1024,15,15);
 for ii = 1:15

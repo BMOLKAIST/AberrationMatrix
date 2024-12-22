@@ -1,5 +1,5 @@
 # Simulation codes for time-gated reflection imaging
-Supporting codes and data for a paper titled "Digital aberration correction for enhanced thick tissue imaging exploiting aberration matrix and tilt-tilt correlation in optical memory effect"
+Supporting codes and data for a paper titled "Digital aberration correction for enhanced thick tissue imaging exploiting aberration matrix and tilt-tilt correlation from the optical memory effect"
 
 1. System requirements:
 Window 10+ 64 bits
